@@ -1,0 +1,36 @@
+{
+  "name": "bachelor-ghor-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Bachelor House Management System",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src/",
+    "format": "prettier --write src/"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.0",
+    "axios": "^1.4.0",
+    "zustand": "^4.3.9",
+    "react-hot-toast": "^2.4.1",
+    "chart.js": "^3.9.1",
+    "react-chartjs-2": "^5.2.0",
+    "date-fns": "^2.30.0",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^1.13.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.3",
+    "vite": "^4.4.0",
+    "tailwindcss": "^3.3.2",
+    "postcss": "^8.4.24",
+    "autoprefixer": "^10.4.14",
+    "eslint": "^8.46.0",
+    "eslint-plugin-react": "^7.32.2",
+    "prettier": "^3.0.0"
+  }
+}
