@@ -1,13 +1,17 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import AppShell from './components/AppShell'
+import Dashboard from './pages/Dashboard'
 import './App.css'
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<div>Home</div>} />
-      </Routes>
+      <AppShell>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+        </Routes>
+      </AppShell>
     </Router>
   )
 }
