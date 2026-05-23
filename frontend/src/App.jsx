@@ -7,6 +7,7 @@ import ModuleDetail from './pages/ModuleDetail'
 import Members from './pages/Members'
 import Meals from './pages/Meals'
 import Expenses from './pages/Expenses'
+import Security from './pages/Security'
 import './App.css'
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/modules" element={<Modules />} />
           <Route path="/modules/:slug" element={<ModuleDetail />} />
+          <Route path="/security" element={<Security />} />
           <Route path="/members" element={<Members />} />
           <Route path="/meals" element={<Meals />} />
           <Route path="/expenses" element={<Expenses />} />
