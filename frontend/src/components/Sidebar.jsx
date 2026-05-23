@@ -31,6 +31,7 @@ export default function Sidebar() {
       <div className="flex-1 p-4 bg-gradient-to-b from-slate-950 to-slate-900">
         <nav className="flex flex-col gap-2">
           <NavItem to="/">Dashboard</NavItem>
+          <NavItem to="/modules">Modules</NavItem>
           <NavItem to="/members">Members</NavItem>
           <NavItem to="/meals">Meals</NavItem>
           <NavItem to="/expenses">Expenses</NavItem>
