@@ -8,5 +8,28 @@ body,
 
 body {
 	margin: 0;
-	background: #f3f4f6;
+		background: radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.12), transparent 20%), linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+		color: #0f1724;
+}
+
+/* Card helpers to match final design */
+.card-panel {
+	background: #ffffff;
+	border-radius: 1.25rem;
+	box-shadow: 0 10px 30px rgba(15,23,42,0.08);
+	border: 1px solid rgba(255,255,255,0.6);
+}
+
+.glass-panel {
+	background: rgba(255,255,255,0.85);
+	backdrop-filter: blur(6px);
+	border-radius: 1.5rem;
+	box-shadow: 0 10px 30px rgba(15,23,42,0.08);
+}
+
+/* utility for title headers */
+.module-header {
+	display:flex;
+	align-items:center;
+	justify-content:space-between;
 }

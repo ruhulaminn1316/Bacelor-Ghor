@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { authService, authStorage } from '../services/auth'
 
 const featureChecks = [
@@ -20,6 +20,32 @@ export default function Security() {
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
   const [otpMode, setOtpMode] = useState(false)
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || ''
+
+  useEffect(() => {
+    if (!googleClientId) return
+    const id = 'google-identity'
+    if (document.getElementById(id)) return
+    const script = document.createElement('script')
+    script.src = 'https://accounts.google.com/gsi/client'
+    script.async = true
+    script.defer = true
+    script.id = id
+    script.onload = () => {
+      try {
+        /* global google */
+        google.accounts.id.initialize({
+          client_id: googleClientId,
+          callback: handleGoogleCredentialResponse,
+        })
+        google.accounts.id.renderButton(document.getElementById('google-signin-button'), { theme: 'outline', size: 'large' })
+      } catch (e) {
+        // ignore
+      }
+    }
+    document.head.appendChild(script)
+    return () => { if (script.parentNode) script.parentNode.removeChild(script) }
+  }, [googleClientId])
 
   const updateForm = (setter) => (event) => setter((current) => ({ ...current, [event.target.name]: event.target.value }))
 
@@ -89,6 +115,21 @@ export default function Security() {
     }
   }
 
+  async function handleGoogleCredentialResponse(response) {
+    if (!response?.credential) return
+    setLoading(true)
+    setMessage('')
+    try {
+      const res = await authService.googleLogin({ id_token: response.credential })
+      authStorage.setTokens(res.data)
+      setMessage('Google sign-in successful.')
+    } catch (err) {
+      setMessage(err.response?.data?.detail || 'Google sign-in failed.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="space-y-6 lg:space-y-8">
       <section className="overflow-hidden rounded-[2rem] border border-white/70 bg-slate-950 text-white shadow-[0_20px_60px_rgba(15,23,42,0.18)]">
@@ -114,10 +155,18 @@ export default function Security() {
           <form onSubmit={handleLogin} className="rounded-3xl border border-white/70 bg-white/85 p-5 shadow-[0_10px_30px_rgba(15,23,42,0.08)] backdrop-blur-sm">
             <h3 className="text-lg font-semibold text-slate-950">Login / Logout</h3>
             <div className="mt-4 space-y-3">
-              <input name="identifier" value={loginForm.identifier} onChange={updateForm(setLoginForm)} placeholder="Email or username" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-500" />
-              <input name="password" type="password" value={loginForm.password} onChange={updateForm(setLoginForm)} placeholder="Password" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-500" />
-              <input name="device_name" value={loginForm.device_name} onChange={updateForm(setLoginForm)} placeholder="Device name (optional)" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-500" />
-              <button disabled={loading} className="w-full rounded-2xl bg-slate-950 px-4 py-3 text-sm font-medium text-white transition hover:bg-slate-800">Login</button>
+              <input name="identifier" value={loginForm.identifier} onChange={updateForm(setLoginForm)} placeholder="Email or username" className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-indigo-300" />
+              <input name="password" type="password" value={loginForm.password} onChange={updateForm(setLoginForm)} placeholder="Password" className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-indigo-300" />
+              <input name="device_name" value={loginForm.device_name} onChange={updateForm(setLoginForm)} placeholder="Device name (optional)" className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-indigo-300" />
+              <button disabled={loading} className="w-full rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 px-4 py-3 text-sm font-medium text-white transition hover:from-violet-700 hover:to-indigo-700">Login</button>
+              <div className="text-center text-sm text-slate-500">or continue with</div>
+              {googleClientId ? (
+                <div className="flex justify-center">
+                  <div id="google-signin-button" />
+                </div>
+              ) : (
+                <div className="text-center text-xs text-slate-400">Set VITE_GOOGLE_CLIENT_ID to enable Google Sign-In.</div>
+              )}
             </div>
           </form>
 
