@@ -47,6 +47,15 @@ export default function Security() {
     return () => { if (script.parentNode) script.parentNode.removeChild(script) }
   }, [googleClientId])
 
+  useEffect(() => {
+    const savedVerificationId = localStorage.getItem('bg-otp-verification-id')
+    if (savedVerificationId) {
+      setOtpMode(true)
+      setOtpForm((current) => ({ ...current, verification_id: savedVerificationId }))
+      setMessage('Two-factor verification code was sent. Enter it below to finish login.')
+    }
+  }, [])
+
   const updateForm = (setter) => (event) => setter((current) => ({ ...current, [event.target.name]: event.target.value }))
 
   const handleLogin = async (event) => {
@@ -106,6 +115,7 @@ export default function Security() {
     try {
       const response = await authService.verifyOtp(otpForm)
       authStorage.setTokens(response.data)
+      localStorage.removeItem('bg-otp-verification-id')
       setMessage('Two-factor verification successful.')
       setOtpMode(false)
     } catch (error) {

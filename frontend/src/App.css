@@ -33,3 +33,29 @@ body {
 	align-items:center;
 	justify-content:space-between;
 }
+
+/* Form inputs and buttons */
+.input {
+	@apply rounded-xl bg-white/10 border border-white/20 px-4 py-3 text-sm outline-none;
+	backdrop-filter: blur(6px);
+}
+.input:focus {
+	@apply ring-1 ring-white/30;
+}
+
+.btn-primary {
+	@apply rounded-2xl text-white bg-gradient-to-r from-violet-600 to-fuchsia-600 px-4 py-2 font-medium shadow-lg;
+	transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn-primary:hover { transform: translateY(-2px) scale(1.02); }
+
+.btn-secondary {
+	@apply rounded-2xl bg-white/10 text-white px-4 py-2 font-medium border border-white/20;
+}
+
+/* Small helpers for sidebar */
+.sidebar-link { @apply flex items-center gap-3 rounded-2xl px-4 py-3 transition text-gray-200 hover:text-white }
+.sidebar-link-active { @apply bg-white/10 text-white shadow-sm }
+
+/* Avatar fallback image */
+img[alt="User"] { object-fit: cover }

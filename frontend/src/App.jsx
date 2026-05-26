@@ -13,6 +13,7 @@ import Rent from './pages/Rent'
 import Utilities from './pages/Utilities'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import ProtectedRoute from './components/ProtectedRoute'
 import { ThemeProvider } from './context/ThemeContext'
 import { AuthProvider } from './context/AuthContext'
 import './App.css'
@@ -26,16 +27,17 @@ function App() {
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/modules" element={<Modules />} />
-              <Route path="/modules/:slug" element={<ModuleDetail />} />
-              <Route path="/security" element={<Security />} />
-              <Route path="/members" element={<Members />} />
-              <Route path="/meals" element={<Meals />} />
-              <Route path="/bazar" element={<Bazar />} />
-              <Route path="/expenses" element={<Expenses />} />
-              <Route path="/rent" element={<Rent />} />
-              <Route path="/utilities" element={<Utilities />} />
+
+              <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              <Route path="/modules" element={<ProtectedRoute><Modules /></ProtectedRoute>} />
+              <Route path="/modules/:slug" element={<ProtectedRoute><ModuleDetail /></ProtectedRoute>} />
+              <Route path="/security" element={<ProtectedRoute><Security /></ProtectedRoute>} />
+              <Route path="/members" element={<ProtectedRoute><Members /></ProtectedRoute>} />
+              <Route path="/meals" element={<ProtectedRoute><Meals /></ProtectedRoute>} />
+              <Route path="/bazar" element={<ProtectedRoute><Bazar /></ProtectedRoute>} />
+              <Route path="/expenses" element={<ProtectedRoute><Expenses /></ProtectedRoute>} />
+              <Route path="/rent" element={<ProtectedRoute><Rent /></ProtectedRoute>} />
+              <Route path="/utilities" element={<ProtectedRoute><Utilities /></ProtectedRoute>} />
             </Routes>
           </AppShell>
         </Router>

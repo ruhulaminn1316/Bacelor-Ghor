@@ -25,6 +25,11 @@ export default function Register() {
   const { login } = useAuth()
   const navigate = useNavigate()
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || ''
+  const { isAuthenticated } = useAuth()
+
+  useEffect(() => {
+    if (isAuthenticated) navigate('/')
+  }, [isAuthenticated])
 
   const updateField = (event) => {
     const { name, value } = event.target
