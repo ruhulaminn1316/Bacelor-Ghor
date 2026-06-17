@@ -1,49 +1,78 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import AppShell from './components/AppShell'
-import Dashboard from './pages/Dashboard'
-import Modules from './pages/Modules'
-import ModuleDetail from './pages/ModuleDetail'
-import Members from './pages/Members'
-import Meals from './pages/Meals'
-import Expenses from './pages/Expenses'
-import Security from './pages/Security'
-import Bazar from './pages/Bazar'
-import Rent from './pages/Rent'
-import Utilities from './pages/Utilities'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
+import DashboardLayout from './layouts/DashboardLayout'
+import ProtectedRoute from './components/ProtectedRoute'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import ProtectedRoute from './components/ProtectedRoute'
-import { ThemeProvider } from './context/ThemeContext'
+import ForgotPassword from './pages/ForgotPassword'
+import OtpVerification from './pages/OtpVerification'
+import Dashboard from './pages/DashboardView'
+import MealManagement from './pages/MealManagementView'
+import BazarManagement from './pages/BazarManagementView'
+import ExpenseManagement from './pages/ExpenseManagementView'
+import RentManagement from './pages/RentManagementView'
+import UtilityBills from './pages/UtilityBillsView'
+import MembersManagement from './pages/MembersManagementView'
+import RoomsSeats from './pages/RoomsSeatsView'
+import ReportsAnalytics from './pages/ReportsAnalyticsView'
+import NoticeBoard from './pages/NoticeBoardView'
+import AIAssistant from './pages/AIAssistantView'
+import Settings from './pages/SettingsView'
+import UserProfile from './pages/UserProfileView'
+import ActivityLogs from './pages/ActivityLogsView'
 import { AuthProvider } from './context/AuthContext'
-import './App.css'
+import { ThemeProvider } from './context/ThemeContext'
+import { UiProvider } from './context/UiContext'
 
-function App() {
+function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/otp-verification" element={<OtpVerification />} />
+
+      <Route
+        element={
+          <ProtectedRoute>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/meal-management" element={<MealManagement />} />
+        <Route path="/bazar-management" element={<BazarManagement />} />
+        <Route path="/expense-management" element={<ExpenseManagement />} />
+        <Route path="/rent-management" element={<RentManagement />} />
+        <Route path="/utility-bills" element={<UtilityBills />} />
+        <Route path="/members-management" element={<MembersManagement />} />
+        <Route path="/rooms-seats" element={<RoomsSeats />} />
+        <Route path="/reports-analytics" element={<ReportsAnalytics />} />
+        <Route path="/notice-board" element={<NoticeBoard />} />
+        <Route path="/ai-assistant" element={<AIAssistant />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/profile" element={<UserProfile />} />
+        <Route path="/activity-logs" element={<ActivityLogs />} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      </Route>
+    </Routes>
+  )
+}
+
+export default function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <Router>
-          <AppShell>
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-
-              <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-              <Route path="/modules" element={<ProtectedRoute><Modules /></ProtectedRoute>} />
-              <Route path="/modules/:slug" element={<ProtectedRoute><ModuleDetail /></ProtectedRoute>} />
-              <Route path="/security" element={<ProtectedRoute><Security /></ProtectedRoute>} />
-              <Route path="/members" element={<ProtectedRoute><Members /></ProtectedRoute>} />
-              <Route path="/meals" element={<ProtectedRoute><Meals /></ProtectedRoute>} />
-              <Route path="/bazar" element={<ProtectedRoute><Bazar /></ProtectedRoute>} />
-              <Route path="/expenses" element={<ProtectedRoute><Expenses /></ProtectedRoute>} />
-              <Route path="/rent" element={<ProtectedRoute><Rent /></ProtectedRoute>} />
-              <Route path="/utilities" element={<ProtectedRoute><Utilities /></ProtectedRoute>} />
-            </Routes>
-          </AppShell>
-        </Router>
+        <UiProvider>
+          <BrowserRouter>
+            <AnimatePresence mode="wait">
+              <AppRoutes />
+            </AnimatePresence>
+          </BrowserRouter>
+        </UiProvider>
       </AuthProvider>
     </ThemeProvider>
   )
 }
-
-export default App
