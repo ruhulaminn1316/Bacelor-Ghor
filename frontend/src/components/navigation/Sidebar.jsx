@@ -1,11 +1,36 @@
 import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { Bell, Home, Leaf, Receipt, Settings, Users, WalletCards, Scale } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { useUi } from '../../context/UiContext'
 import { cn } from '../../utils/cn'
 import { initials } from '../../utils/format'
-import { footerNavItems, mainNavItems } from '../../routes/navigation'
+
+const navGroups = [
+  {
+    label: 'MAIN',
+    items: [
+      { label: 'Dashboard', to: '/dashboard', icon: Home },
+      { label: 'Meals', to: '/meal-management', icon: Leaf, badge: '3' },
+      { label: 'Bazar', to: '/bazar-management', icon: Receipt },
+    ],
+  },
+  {
+    label: 'FINANCE',
+    items: [
+      { label: 'Bills & Rent', to: '/rent-management', icon: WalletCards },
+      { label: 'Settlement', to: '/settlement', icon: Scale },
+    ],
+  },
+  {
+    label: 'HOUSE',
+    items: [
+      { label: 'Members', to: '/members-management', icon: Users },
+      { label: 'Notice Board', to: '/notice-board', icon: Bell, badge: '2' },
+      { label: 'Settings', to: '/settings', icon: Settings },
+    ],
+  },
+]
 
 function NavItem({ item, onNavigate }) {
   const Icon = item.icon
@@ -15,20 +40,25 @@ function NavItem({ item, onNavigate }) {
       onClick={onNavigate}
       className={({ isActive }) =>
         cn(
-          'group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition',
+          'group flex h-8 items-center gap-2 rounded-md px-2.5 text-[11px] font-semibold transition',
           isActive
-            ? 'bg-white/12 text-white shadow-lg shadow-blue-900/20 ring-1 ring-white/10'
-            : 'text-slate-300 hover:bg-white/8 hover:text-white',
+            ? 'bg-blue-600/40 text-white shadow-sm ring-1 ring-blue-400/10'
+            : 'text-slate-400 hover:bg-slate-800/80 hover:text-slate-100',
         )
       }
     >
-      <Icon className="h-4.5 w-4.5" />
-      <span>{item.label}</span>
+      <Icon className="h-3.5 w-3.5 shrink-0 text-sky-400" />
+      <span className="min-w-0 flex-1 truncate">{item.label}</span>
+      {item.badge ? (
+        <span className="grid h-4 min-w-4 place-items-center rounded-full bg-blue-500 px-1.5 text-[10px] font-bold leading-none text-white">
+          {item.badge}
+        </span>
+      ) : null}
     </NavLink>
   )
 }
 
-export default function Sidebar() {
+export default function Sidebar({ mobile = false }) {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const { closeSidebar } = useUi()
@@ -40,49 +70,42 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className="hidden h-screen w-[300px] shrink-0 border-r border-white/10 bg-slate-950/80 text-white backdrop-blur-xl lg:sticky lg:top-0 lg:flex lg:flex-col">
-      <div className="flex items-center gap-3 px-6 py-6">
-        <div className="grid h-12 w-12 place-items-center rounded-3xl bg-gradient-to-br from-blue-500 to-cyan-400 text-lg font-bold text-white shadow-lg shadow-blue-500/30">
-          BH
-        </div>
-        <div>
-          <div className="text-lg font-semibold tracking-tight">BachelorHub</div>
-          <div className="text-xs text-slate-400">AI-powered mess management</div>
-        </div>
-      </div>
-
-      <div className="px-4">
-        <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4">
-          <div className="text-xs uppercase tracking-[0.24em] text-slate-400">Current cycle</div>
-          <div className="mt-2 text-2xl font-semibold">June 2026</div>
-          <p className="mt-2 text-sm text-slate-300">Meals, dues, utilities, and savings in one workspace.</p>
+    <aside className={cn('h-screen w-[185px] shrink-0 overflow-hidden border-r border-slate-700/80 bg-[#0b1726] text-white shadow-2xl shadow-slate-950/30', mobile ? 'flex flex-col' : 'hidden lg:sticky lg:top-0 lg:flex lg:flex-col')}>
+      <div className="border-b border-slate-800/90 px-4 py-5">
+        <div className="flex items-center gap-2">
+          <div className="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-blue-500 to-cyan-400 text-sm shadow-lg shadow-blue-500/20">
+            🏠
+          </div>
+          <div className="text-[13px] font-bold tracking-tight text-white">
+            Bachelor<span className="text-cyan-400">Hub</span>
+          </div>
         </div>
       </div>
 
-      <nav className="scrollbar-thin mt-5 flex-1 space-y-1 overflow-y-auto px-3 pb-6">
-        {mainNavItems.map((item) => <NavItem key={item.to} item={item} onNavigate={closeSidebar} />)}
+      <nav className="scrollbar-thin flex-1 overflow-y-auto px-2.5 py-4">
+        <div className="space-y-5">
+          {navGroups.map((group) => (
+            <div key={group.label}>
+              <div className="mb-1.5 px-2 text-[10px] font-bold uppercase tracking-wider text-slate-600">{group.label}</div>
+              <div className="space-y-1">
+                {group.items.map((item) => <NavItem key={item.to} item={item} onNavigate={closeSidebar} />)}
+              </div>
+            </div>
+          ))}
+        </div>
       </nav>
 
-      <div className="border-t border-white/10 p-4">
-        <div className="rounded-[1.5rem] bg-white/6 p-4">
-          <div className="flex items-center gap-3">
-            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-white/10 font-semibold text-white">
-              {initials(user?.name)}
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="truncate text-sm font-semibold text-white">{user?.name || 'Rakib Hasan'}</div>
-              <div className="truncate text-xs text-slate-400">{user?.email || 'admin@bachelorhub.app'}</div>
-            </div>
+      <div className="border-t border-slate-800/90 px-3 py-3">
+        <div className="flex items-center gap-2">
+          <div className="grid h-7 w-7 place-items-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 text-[10px] font-bold text-white">
+            {initials(user?.name || 'Rahman Ali')}
           </div>
-          <div className="mt-4 grid grid-cols-2 gap-2">
-            {footerNavItems.slice(0, 3).map((item) => (
-              <NavLink key={item.label} to={item.to} onClick={closeSidebar} className="rounded-2xl bg-white/5 px-3 py-2 text-xs font-medium text-slate-200 transition hover:bg-white/10">
-                {item.label}
-              </NavLink>
-            ))}
+          <div className="min-w-0 flex-1">
+            <div className="truncate text-[11px] font-bold leading-tight text-white">{user?.name || 'Rahman Ali'}</div>
+            <div className="truncate text-[10px] leading-tight text-slate-500">Admin · Mirpur House</div>
           </div>
-          <button onClick={handleLogout} className="mt-3 w-full rounded-2xl bg-white/10 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/16">
-            Logout
+          <button onClick={handleLogout} className="h-7 rounded-md px-1.5 text-[10px] font-semibold text-slate-500 transition hover:bg-slate-800 hover:text-white">
+            Exit
           </button>
         </div>
       </div>

@@ -3,16 +3,10 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   ArrowRight,
-  BadgeCheck,
   BarChart3,
   Building2,
-  CreditCard,
   DollarSign,
-  MoonStar,
-  MessageSquareText,
   Receipt,
-  ShieldCheck,
-  Sparkles,
   Users,
 } from 'lucide-react'
 import Button from '../components/common/Button'
@@ -23,18 +17,6 @@ const features = [
   { title: 'Smart Rent & Utility', description: 'Track due, paid, and advance across rent, electricity, gas, water, and internet.', icon: Building2 },
   { title: 'Member & Admin Tools', description: 'Member lifecycle, approvals, role permissions, and admin-grade controls.', icon: Users },
   { title: 'Live Settlement Engine', description: 'Instant monthly settlement sheet with PDF-ready data blocks.', icon: DollarSign },
-]
-
-const testimonials = [
-  { name: 'Rakib Hasan', role: 'Mess Manager', quote: 'BachelorHub removed spreadsheet chaos. Month-end settlement now takes minutes.' },
-  { name: 'Sohan Ahmed', role: 'Boarding Member', quote: 'Meal entries and dues are transparent. Everyone can see where money goes.' },
-  { name: 'Nayeem Islam', role: 'Treasurer', quote: 'The dashboard looks premium and keeps every module connected in one place.' },
-]
-
-const faqs = [
-  { q: 'Can we use this with our existing process?', a: 'Yes. Start with meals and expenses, then enable rent, utility, and settlement workflows gradually.' },
-  { q: 'Is this ready for backend integration?', a: 'All screens, forms, states, and table layouts are built as frontend modules ready for API wiring.' },
-  { q: 'Does it support both mobile and desktop?', a: 'Yes. The layout includes mobile navigation, responsive cards, and adaptive data sections.' },
 ]
 
 export default function LandingPage() {
@@ -104,8 +86,8 @@ export default function LandingPage() {
                   <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">2 utility bills pending. 1 member has advance balance.</p>
                 </div>
                 <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
-                  <div className="text-sm font-semibold">AI Recommendation</div>
-                  <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Reduce meal rate by ৳2 with optimized bazar purchase cycle.</p>
+                  <div className="text-sm font-semibold">Meal Optimization</div>
+                  <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Reduce meal rate by ৳2 with a better bazar purchase cycle.</p>
                 </div>
               </div>
             </div>
@@ -169,86 +151,13 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
-
-        <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="surface rounded-[1.75rem] p-6 shadow-soft-lg">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <p className="text-sm font-semibold text-blue-600 dark:text-blue-300">Design system</p>
-                <h2 className="mt-2 text-3xl font-semibold tracking-tight">Tailwind + DaisyUI-inspired component language</h2>
-              </div>
-              <Badge tone="slate"><MoonStar className="h-3.5 w-3.5" /> Light & dark</Badge>
-            </div>
-            <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              {[
-                ['Primary', '#2563EB'],
-                ['Secondary', '#0EA5E9'],
-                ['Success', '#22C55E'],
-                ['Warning', '#F59E0B'],
-              ].map(([name, color]) => (
-                <div key={name} className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
-                  <div className="h-16 rounded-xl" style={{ backgroundColor: color }} />
-                  <div className="mt-3 text-sm font-semibold text-slate-950 dark:text-white">{name}</div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400">{color}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="grid gap-4 lg:grid-cols-3">
-            {testimonials.map((item) => (
-              <div key={item.name} className="surface rounded-[1.75rem] p-6 shadow-soft-lg">
-                <MessageSquareText className="h-5 w-5 text-blue-500" />
-                <p className="mt-4 text-sm leading-6 text-slate-600 dark:text-slate-300">{item.quote}</p>
-                <div className="mt-4 text-sm font-semibold">{item.name}</div>
-                <div className="text-xs text-slate-500 dark:text-slate-400">{item.role}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="grid gap-4 lg:grid-cols-3">
-            {[
-              { name: 'Starter', price: '৳0', description: 'Up to 8 members' },
-              { name: 'Growth', price: '৳799', description: 'Unlimited members + reports', featured: true },
-              { name: 'Scale', price: '৳1599', description: 'Admin tools + priority support' },
-            ].map((plan) => (
-              <div key={plan.name} className={`rounded-[1.9rem] border p-6 shadow-soft-lg ${plan.featured ? 'border-blue-400 bg-blue-600 text-white' : 'border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900'}`}>
-                <div className="text-sm font-semibold">{plan.name}</div>
-                <div className="mt-3 text-4xl font-semibold">{plan.price}<span className="text-base font-medium">/month</span></div>
-                <p className={`mt-3 text-sm ${plan.featured ? 'text-blue-100' : 'text-slate-500 dark:text-slate-400'}`}>{plan.description}</p>
-                <button className={`mt-6 w-full rounded-2xl px-4 py-3 text-sm font-semibold transition ${plan.featured ? 'bg-white text-blue-700 hover:bg-blue-50' : 'bg-slate-900 text-white hover:bg-slate-700 dark:bg-white dark:text-slate-900'}`}>Choose Plan</button>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
-          <h3 className="text-center text-3xl font-semibold tracking-tight">Frequently asked questions</h3>
-          <div className="mt-8 space-y-3">
-            {faqs.map((item) => (
-              <details key={item.q} className="surface rounded-2xl p-5 shadow-soft-lg">
-                <summary className="cursor-pointer text-sm font-semibold">{item.q}</summary>
-                <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{item.a}</p>
-              </details>
-            ))}
-          </div>
-        </section>
       </main>
 
       <footer className="border-t border-slate-200/80 bg-white/80 py-8 dark:border-slate-800 dark:bg-slate-950/70">
-        <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-4 px-4 text-sm text-slate-500 sm:flex-row sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-blue-500" />
-            <span>BachelorHub © 2026. Commercially-ready frontend UI system.</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="inline-flex items-center gap-1"><ShieldCheck className="h-4 w-4" /> Secure-ready</span>
-            <span className="inline-flex items-center gap-1"><CreditCard className="h-4 w-4" /> Billing-ready</span>
-            <span className="inline-flex items-center gap-1"><BadgeCheck className="h-4 w-4" /> Accessible UI</span>
+        <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-3 px-4 text-sm text-slate-500 sm:flex-row sm:px-6 lg:px-8">
+          <span>BachelorHub © 2026</span>
+          <div className="text-center font-semibold text-slate-900 dark:text-white">
+            Developed by <span className="text-blue-600 dark:text-blue-300">RUHUL AMIN</span>
           </div>
         </div>
       </footer>

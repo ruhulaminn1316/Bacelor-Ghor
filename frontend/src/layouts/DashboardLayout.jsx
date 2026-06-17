@@ -5,7 +5,6 @@ import Sidebar from '../components/navigation/Sidebar'
 import MobileSidebar from '../components/navigation/MobileSidebar'
 import MobileBottomNav from '../components/navigation/MobileBottomNav'
 import Navbar from '../components/navigation/Navbar'
-import FloatingChatWidget from '../components/navigation/FloatingChatWidget'
 import FloatingActionButton from '../components/common/FloatingActionButton'
 import { mainNavItems } from '../routes/navigation'
 
@@ -39,7 +38,6 @@ export default function DashboardLayout() {
 
       <FloatingActionButton />
       <MobileBottomNav />
-      <FloatingChatWidget />
     </div>
   )
 }

@@ -22,7 +22,7 @@ export default function MobileSidebar() {
             <button onClick={closeSidebar} className="absolute right-3 top-3 z-20 grid h-10 w-10 place-items-center rounded-2xl bg-white/10 text-white backdrop-blur">
               <X className="h-5 w-5" />
             </button>
-            <Sidebar />
+            <Sidebar mobile />
           </motion.div>
         </motion.div>
       ) : null}

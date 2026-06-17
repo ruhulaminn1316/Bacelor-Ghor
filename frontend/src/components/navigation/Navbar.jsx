@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Bell, ChevronDown, Menu, MoonStar, Search, SunMedium, Sparkles } from 'lucide-react'
+import { Bell, ChevronDown, Menu, MoonStar, SunMedium } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useTheme } from '../../context/ThemeContext'
 import { useUi } from '../../context/UiContext'
@@ -26,12 +26,6 @@ export default function Navbar({ title, subtitle }) {
             <h1 className="truncate text-xl font-semibold tracking-tight text-slate-950 dark:text-white sm:text-2xl">{title}</h1>
             {subtitle ? <span className="text-sm text-slate-500 dark:text-slate-400">{subtitle}</span> : null}
           </div>
-        </div>
-
-        <div className="hidden w-full max-w-xl items-center gap-3 rounded-2xl border border-slate-200/80 bg-white/85 px-4 py-2.5 shadow-sm dark:border-slate-800 dark:bg-slate-900/80 md:flex">
-          <Search className="h-4 w-4 text-slate-400" />
-          <input className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400" placeholder="Search members, meals, expenses, dues..." />
-          <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-semibold text-slate-500 dark:bg-slate-800 dark:text-slate-400">⌘K</span>
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
@@ -61,10 +55,6 @@ export default function Navbar({ title, subtitle }) {
               </div>
             ) : null}
           </div>
-          <Button variant="primary" size="sm" className="hidden xl:inline-flex">
-            <Sparkles className="h-4 w-4" />
-            AI Quick Assist
-          </Button>
         </div>
       </div>
     </header>

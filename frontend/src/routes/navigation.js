@@ -7,12 +7,10 @@ import {
   Home,
   LayoutGrid,
   Leaf,
-  MessageSquare,
   Receipt,
   Scale,
   Settings,
   Shield,
-  Sparkles,
   UserCog,
   Users,
   Warehouse,
@@ -34,7 +32,6 @@ export const mainNavItems = [
   { label: 'Reports', to: '/reports-analytics', icon: BarChart3 },
   { label: 'Notice Board', to: '/notice-board', icon: FileText },
   { label: 'Admin Panel', to: '/admin-panel', icon: UserCog },
-  { label: 'AI Assistant', to: '/ai-assistant', icon: Sparkles },
   { label: 'Activity Logs', to: '/activity-logs', icon: ClipboardList },
   { label: 'Settings', to: '/settings', icon: Settings },
   { label: 'Profile', to: '/profile', icon: UserCircle2 },
@@ -43,6 +40,5 @@ export const mainNavItems = [
 export const footerNavItems = [
   { label: 'Security', to: '/settings', icon: Shield },
   { label: 'Modules', to: '/reports-analytics', icon: LayoutGrid },
-  { label: 'Messages', to: '/ai-assistant', icon: MessageSquare },
   { label: 'Logout', to: '/logout', icon: LogOut },
 ]

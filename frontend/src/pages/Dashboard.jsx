@@ -1,6 +1,6 @@
 import React from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { CalendarDays, PlusCircle, Sparkles, Users, WalletCards, Receipt, MessageCircleMore } from 'lucide-react'
+import { CalendarDays, PlusCircle, Users, WalletCards, Receipt, FileText, TrendingUp } from 'lucide-react'
 import Button from '../components/common/Button'
 import Badge from '../components/common/Badge'
 import StatCard from '../components/common/StatCard'
@@ -14,7 +14,7 @@ const tasks = [
   { title: 'Add meal entry', icon: PlusCircle },
   { title: 'Upload bazar receipt', icon: Receipt },
   { title: 'Collect monthly rent', icon: WalletCards },
-  { title: 'Review AI insights', icon: Sparkles },
+  { title: 'Review monthly report', icon: FileText },
 ]
 
 const calendarDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -35,9 +35,8 @@ export default function Dashboard() {
       <SectionHeader
         eyebrow="Command center"
         title="Bachelor life, upgraded into a premium operating system."
-        description="Track meals, budgets, rent collection, utilities, notices, and AI recommendations from one polished dashboard."
+        description="Track meals, budgets, rent collection, utilities, notices, and monthly reports from one polished dashboard."
         action={[
-          <Button key="assistant" variant="secondary"><MessageCircleMore className="h-4 w-4" />Open assistant</Button>,
           <Button key="new" variant="primary"><PlusCircle className="h-4 w-4" />New entry</Button>,
         ]}
       />
@@ -103,10 +102,10 @@ export default function Dashboard() {
           <div className="surface rounded-[1.75rem] p-5 shadow-soft-lg">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-slate-950 dark:text-white">AI insights</h3>
+                <h3 className="text-lg font-semibold text-slate-950 dark:text-white">Smart insights</h3>
                 <p className="text-sm text-slate-500 dark:text-slate-400">Smart suggestions based on current cycle</p>
               </div>
-              <Sparkles className="h-5 w-5 text-cyan-500" />
+              <TrendingUp className="h-5 w-5 text-cyan-500" />
             </div>
             <div className="mt-4 space-y-3">
               <div className="rounded-2xl bg-blue-500/10 p-4 text-sm text-blue-700 dark:text-blue-200">Meal rate can be reduced by ৳3 if three outstanding bazar items are reconciled.</div>

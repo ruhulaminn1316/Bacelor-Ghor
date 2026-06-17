@@ -19,7 +19,6 @@ import MembersManagement from './pages/MembersManagementView'
 import RoomsSeats from './pages/RoomsSeatsView'
 import ReportsAnalytics from './pages/ReportsAnalyticsView'
 import NoticeBoard from './pages/NoticeBoardView'
-import AIAssistant from './pages/AIAssistantView'
 import Settings from './pages/SettingsView'
 import UserProfile from './pages/UserProfileView'
 import ActivityLogs from './pages/ActivityLogsView'
@@ -55,7 +54,6 @@ function AppRoutes() {
         <Route path="/rooms-seats" element={<RoomsSeats />} />
         <Route path="/reports-analytics" element={<ReportsAnalytics />} />
         <Route path="/notice-board" element={<NoticeBoard />} />
-        <Route path="/ai-assistant" element={<AIAssistant />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/activity-logs" element={<ActivityLogs />} />

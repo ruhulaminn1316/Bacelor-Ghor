@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { CheckCircle2, Leaf, Sparkles, WalletCards } from 'lucide-react'
+import { CheckCircle2, Leaf, ReceiptText, WalletCards } from 'lucide-react'
 
 const highlights = [
   'Meal, rent, and expense management in one clean workspace.',
@@ -23,7 +23,7 @@ export default function AuthLayout({ title, subtitle, children }) {
             </div>
             <div>
               <div className="text-lg font-semibold">BachelorHub</div>
-              <div className="text-sm text-slate-400">AI-powered life management SaaS</div>
+              <div className="text-sm text-slate-400">Meal & rent management SaaS</div>
             </div>
           </div>
 
@@ -32,7 +32,7 @@ export default function AuthLayout({ title, subtitle, children }) {
               Modern hostel operations, designed for real life.
             </motion.h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-slate-300">
-              One dashboard for meals, bazar, rent, utility bills, reports, notices, and AI-guided budgeting.
+              One dashboard for meals, bazar, rent, utility bills, reports, notices, and clear monthly budgeting.
             </p>
 
             <div className="mt-8 space-y-4">
@@ -56,9 +56,9 @@ export default function AuthLayout({ title, subtitle, children }) {
                 <div className="text-sm text-slate-400">Tracked expenses</div>
               </div>
               <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
-                <Sparkles className="h-5 w-5 text-amber-300" />
-                <div className="mt-3 text-2xl font-semibold">AI</div>
-                <div className="text-sm text-slate-400">Budget assistant</div>
+                <ReceiptText className="h-5 w-5 text-amber-300" />
+                <div className="mt-3 text-2xl font-semibold">PDF</div>
+                <div className="text-sm text-slate-400">Settlement export</div>
               </div>
             </div>
           </div>
