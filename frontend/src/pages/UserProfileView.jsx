@@ -1,5 +1,5 @@
 import React from 'react'
-import { MapPin, Phone, Mail, BriefcaseBusiness, GraduationCap, UserCircle2 } from 'lucide-react'
+import { MapPin, Phone, Mail, Briefcase, GraduationCap, UserCircle2 } from 'lucide-react'
 import ModulePage from './_shared/ModulePage'
 import Badge from '../components/common/Badge'
 
@@ -22,7 +22,7 @@ export default function UserProfileView() {
             [Mail, 'Email', 'rakib@example.com'],
             [Phone, 'Phone', '+880 1711 000000'],
             [GraduationCap, 'Academic', 'Computer Science'],
-            [BriefcaseBusiness, 'Job', 'Product Designer'],
+            [Briefcase, 'Job', 'Product Designer'],
             [MapPin, 'Address', 'Dhaka, Bangladesh'],
           ].map(([Icon, label, value]) => (
             <div key={label} className="surface rounded-[1.75rem] p-5 shadow-soft-lg">

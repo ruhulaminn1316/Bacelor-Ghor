@@ -3,8 +3,10 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import Sidebar from '../components/navigation/Sidebar'
 import MobileSidebar from '../components/navigation/MobileSidebar'
+import MobileBottomNav from '../components/navigation/MobileBottomNav'
 import Navbar from '../components/navigation/Navbar'
 import FloatingChatWidget from '../components/navigation/FloatingChatWidget'
+import FloatingActionButton from '../components/common/FloatingActionButton'
 import { mainNavItems } from '../routes/navigation'
 
 function getTitle(pathname) {
@@ -26,7 +28,7 @@ export default function DashboardLayout() {
 
       <div className="min-w-0 flex-1">
         <Navbar title={getTitle(pathname)} subtitle="Premium mess management workspace" />
-        <main className="mx-auto w-full max-w-[1600px] px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
+        <main className="mx-auto w-full max-w-[1600px] px-4 py-5 pb-24 sm:px-6 sm:py-6 sm:pb-28 lg:px-8 lg:py-8 lg:pb-8">
           <AnimatePresence mode="wait">
             <motion.div key={pathname} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}>
               <Outlet />
@@ -35,6 +37,8 @@ export default function DashboardLayout() {
         </main>
       </div>
 
+      <FloatingActionButton />
+      <MobileBottomNav />
       <FloatingChatWidget />
     </div>
   )

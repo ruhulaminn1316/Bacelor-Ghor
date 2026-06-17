@@ -10,7 +10,7 @@ export default function Login() {
   const navigate = useNavigate()
   const { login } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
-  const [form, setForm] = useState({ email: 'admin@bachelorghor.app', password: 'password' })
+  const [form, setForm] = useState({ email: 'admin@bachelorhub.app', password: 'password' })
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -26,7 +26,7 @@ export default function Login() {
           type="email"
           value={form.email}
           onChange={(event) => setForm({ ...form, email: event.target.value })}
-          placeholder="admin@bachelorghor.app"
+          placeholder="admin@bachelorhub.app"
         />
 
         <label className="flex flex-col gap-2 text-sm font-medium text-slate-700 dark:text-slate-200">
@@ -81,7 +81,7 @@ export default function Login() {
         </div>
 
         <p className="text-center text-sm text-slate-400">
-          New to BachelorGhor?{' '}
+          New to BachelorHub?{' '}
           <Link to="/register" className="font-semibold text-white">
             Create an account
           </Link>

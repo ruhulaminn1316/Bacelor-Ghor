@@ -1,11 +1,14 @@
 import React from 'react'
-import { CalendarDays, MessageCircleMore, PlusCircle, Sparkles, WalletCards, Receipt } from 'lucide-react'
+import { CalendarDays, MessageCircleMore, PlusCircle, Sparkles, WalletCards, Receipt, Activity, Bell, TrendingUp } from 'lucide-react'
 import SectionHeader from '../components/common/SectionHeader'
 import Button from '../components/common/Button'
 import Badge from '../components/common/Badge'
 import StatCard from '../components/common/StatCard'
 import { BudgetBarChart, BudgetPieChart, MealLineChart, MonthlyTrendChart } from '../components/charts/AnalyticsCharts'
 import ResponsiveTable from '../components/tables/ResponsiveTable'
+import SkeletonCard from '../components/common/SkeletonCard'
+import EmptyState from '../components/common/EmptyState'
+import ErrorState from '../components/common/ErrorState'
 import { activityFeed, budgetSplit, expenseTrend, mealEntries, stats } from '../services/mockData'
 
 export default function DashboardView() {
@@ -104,8 +107,66 @@ export default function DashboardView() {
           <div className="mt-4 space-y-3">
             <div className="rounded-2xl bg-blue-500/10 p-4 text-sm text-blue-700 dark:text-blue-200">Meal rate can be reduced by ৳3 if three outstanding bazar items are reconciled.</div>
             <div className="rounded-2xl bg-emerald-500/10 p-4 text-sm text-emerald-700 dark:text-emerald-200">Rent collection is 92% complete. Two members remain pending.</div>
+            <div className="rounded-2xl bg-amber-500/10 p-4 text-sm text-amber-700 dark:text-amber-200">Electricity bill due in 2 days. Auto-reminder will notify all members tonight.</div>
           </div>
         </div>
+      </div>
+
+      <div className="grid gap-4 xl:grid-cols-3">
+        <div className="surface rounded-[1.75rem] p-5 shadow-soft-lg">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold text-slate-950 dark:text-white">Smart widgets</h3>
+            <TrendingUp className="h-5 w-5 text-blue-500" />
+          </div>
+          <div className="mt-4 space-y-3">
+            {[
+              ['Meal completion', '88%'],
+              ['Rent collection', '92%'],
+              ['Utility payment', '76%'],
+            ].map(([label, value]) => (
+              <div key={label}>
+                <div className="mb-1 flex items-center justify-between text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  <span>{label}</span>
+                  <span>{value}</span>
+                </div>
+                <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700">
+                  <div className="h-2 rounded-full bg-gradient-to-r from-blue-600 to-sky-500" style={{ width: value }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="surface rounded-[1.75rem] p-5 shadow-soft-lg">
+          <div className="flex items-center gap-2 text-lg font-semibold text-slate-950 dark:text-white">
+            <Bell className="h-5 w-5 text-amber-500" />
+            Notifications
+          </div>
+          <div className="mt-4 space-y-2 text-sm">
+            <div className="rounded-2xl bg-slate-50 px-3 py-2 dark:bg-slate-900/70">1 new notice from admin</div>
+            <div className="rounded-2xl bg-slate-50 px-3 py-2 dark:bg-slate-900/70">3 members submitted bazar receipts</div>
+            <div className="rounded-2xl bg-slate-50 px-3 py-2 dark:bg-slate-900/70">Monthly report generation ready</div>
+          </div>
+        </div>
+
+        <div className="surface rounded-[1.75rem] p-5 shadow-soft-lg">
+          <div className="flex items-center gap-2 text-lg font-semibold text-slate-950 dark:text-white">
+            <Activity className="h-5 w-5 text-emerald-500" />
+            System states
+          </div>
+          <div className="mt-4 space-y-3">
+            <SkeletonCard />
+          </div>
+        </div>
+      </div>
+
+      <div className="grid gap-4 xl:grid-cols-2">
+        <EmptyState
+          title="Waiting for backend chart stream"
+          description="Interactive live usage charts will appear after API and websocket integration."
+          actionLabel="Connect datasource"
+        />
+        <ErrorState title="Receipt service timeout" description="The upload service did not respond. Retry or check server status." />
       </div>
     </div>
   )

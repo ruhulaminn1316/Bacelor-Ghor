@@ -19,10 +19,10 @@ export default function AuthLayout({ title, subtitle, children }) {
         <section className="hidden flex-col justify-between p-8 xl:flex">
           <div className="flex items-center gap-3">
             <div className="grid h-12 w-12 place-items-center rounded-3xl bg-gradient-to-br from-blue-500 to-cyan-400 font-bold text-white shadow-lg shadow-blue-500/30">
-              BG
+              BH
             </div>
             <div>
-              <div className="text-lg font-semibold">BachelorGhor</div>
+              <div className="text-lg font-semibold">BachelorHub</div>
               <div className="text-sm text-slate-400">AI-powered life management SaaS</div>
             </div>
           </div>

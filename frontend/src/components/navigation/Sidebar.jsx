@@ -43,10 +43,10 @@ export default function Sidebar() {
     <aside className="hidden h-screen w-[300px] shrink-0 border-r border-white/10 bg-slate-950/80 text-white backdrop-blur-xl lg:sticky lg:top-0 lg:flex lg:flex-col">
       <div className="flex items-center gap-3 px-6 py-6">
         <div className="grid h-12 w-12 place-items-center rounded-3xl bg-gradient-to-br from-blue-500 to-cyan-400 text-lg font-bold text-white shadow-lg shadow-blue-500/30">
-          BG
+          BH
         </div>
         <div>
-          <div className="text-lg font-semibold tracking-tight">BachelorGhor</div>
+          <div className="text-lg font-semibold tracking-tight">BachelorHub</div>
           <div className="text-xs text-slate-400">AI-powered mess management</div>
         </div>
       </div>
@@ -71,7 +71,7 @@ export default function Sidebar() {
             </div>
             <div className="min-w-0 flex-1">
               <div className="truncate text-sm font-semibold text-white">{user?.name || 'Rakib Hasan'}</div>
-              <div className="truncate text-xs text-slate-400">{user?.email || 'admin@bachelorghor.app'}</div>
+              <div className="truncate text-xs text-slate-400">{user?.email || 'admin@bachelorhub.app'}</div>
             </div>
           </div>
           <div className="mt-4 grid grid-cols-2 gap-2">

@@ -15,11 +15,11 @@ export default function Register() {
   const handleSubmit = (event) => {
     event.preventDefault()
     register(form)
-    navigate('/dashboard')
+    navigate('/otp-verification')
   }
 
   return (
-    <AuthLayout title="Create your account" subtitle="Join BachelorGhor">
+    <AuthLayout title="Create your account" subtitle="Join BachelorHub">
       <form className="space-y-5" onSubmit={handleSubmit}>
         <div className="grid gap-4 sm:grid-cols-2">
           <Input label="First name" value={form.firstName} onChange={(event) => setForm({ ...form, firstName: event.target.value })} />
