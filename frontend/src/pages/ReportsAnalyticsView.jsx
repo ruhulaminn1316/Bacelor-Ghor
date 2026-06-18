@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 import { Download, Filter, TrendingUp, CalendarRange, Share2 } from 'lucide-react'
 import ModulePage from './_shared/ModulePage'
 import { BudgetBarChart, BudgetPieChart, MealLineChart } from '../components/charts/AnalyticsCharts'
@@ -7,6 +8,10 @@ import Button from '../components/common/Button'
 import Badge from '../components/common/Badge'
 
 export default function ReportsAnalyticsView() {
+  const [period, setPeriod] = useState('This month')
+  const [tab, setTab] = useState('Overview')
+  const exportReport = (type) => toast.success(`${type} report ready for ${period}`)
+
   return (
     <ModulePage
       eyebrow="Analytics"
@@ -20,7 +25,7 @@ export default function ReportsAnalyticsView() {
           <div className="flex items-center gap-2 text-base font-semibold text-slate-950 dark:text-white"><Filter className="h-4 w-4 text-blue-500" />Report filters</div>
           <div className="flex gap-2">
             {['This month', 'Last month', 'Quarter'].map((item) => (
-              <button key={item} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300">{item}</button>
+              <button key={item} onClick={() => setPeriod(item)} className={`rounded-full px-3 py-1 text-xs font-semibold ${period === item ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'}`}>{item}</button>
             ))}
           </div>
         </div>
@@ -30,11 +35,11 @@ export default function ReportsAnalyticsView() {
             Jun 01, 2026 - Jun 30, 2026
           </div>
           <div className="flex rounded-2xl bg-slate-100 p-1 text-xs font-semibold dark:bg-slate-800">
-            {['Overview', 'Meals', 'Expenses', 'Rent'].map((tab, index) => (
-              <button key={tab} className={`flex-1 rounded-xl px-3 py-2 ${index === 0 ? 'bg-white text-slate-950 shadow-sm dark:bg-slate-700 dark:text-white' : 'text-slate-500 dark:text-slate-300'}`}>{tab}</button>
+            {['Overview', 'Meals', 'Expenses', 'Rent'].map((item) => (
+              <button key={item} onClick={() => setTab(item)} className={`flex-1 rounded-xl px-3 py-2 ${tab === item ? 'bg-white text-slate-950 shadow-sm dark:bg-slate-700 dark:text-white' : 'text-slate-500 dark:text-slate-300'}`}>{item}</button>
             ))}
           </div>
-          <Button variant="secondary"><Share2 className="h-4 w-4" />Share</Button>
+          <Button variant="secondary" onClick={() => exportReport('Share link')}><Share2 className="h-4 w-4" />Share</Button>
         </div>
       </div>
 
@@ -45,10 +50,10 @@ export default function ReportsAnalyticsView() {
         <div className="surface rounded-[1.75rem] p-5 shadow-soft-lg">
           <h3 className="text-lg font-semibold text-slate-950 dark:text-white">Export center</h3>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <Button variant="secondary">Export CSV</Button>
-            <Button variant="secondary">Export XLSX</Button>
-            <Button variant="secondary">Share report</Button>
-            <Button variant="secondary">Print summary</Button>
+            <Button variant="secondary" onClick={() => exportReport('CSV')}>Export CSV</Button>
+            <Button variant="secondary" onClick={() => exportReport('XLSX')}>Export XLSX</Button>
+            <Button variant="secondary" onClick={() => exportReport('Share')}>Share report</Button>
+            <Button variant="secondary" onClick={() => exportReport('Print')}>Print summary</Button>
           </div>
         </div>
       </div>

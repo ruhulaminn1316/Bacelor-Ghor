@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 import { WalletCards, Zap, Droplets, Flame, Wifi, Search, ReceiptText, CalendarClock } from 'lucide-react'
 import ModulePage from './_shared/ModulePage'
 import Badge from '../components/common/Badge'
 import ResponsiveTable from '../components/tables/ResponsiveTable'
 import Button from '../components/common/Button'
 import Input from '../components/common/Input'
+import useLocalStorageState from '../hooks/useLocalStorageState'
 
 const rows = [
   { name: 'Rakib Hasan', room: 'A-101', amount: '৳0', status: 'Paid' },
@@ -14,12 +16,30 @@ const rows = [
 ]
 
 export default function RentManagementView() {
+  const [rentRows, setRentRows] = useLocalStorageState('bh-rent-payments', rows)
+  const [form, setForm] = useState({ member: '', rent: '4500', paid: '4500' })
+
   const columns = [
     { key: 'name', label: 'Member' },
     { key: 'room', label: 'Room' },
     { key: 'amount', label: 'Due' },
     { key: 'status', label: 'Status', render: (row) => <Badge tone={row.status === 'Paid' ? 'emerald' : row.status === 'Due' ? 'rose' : 'amber'}>{row.status}</Badge> },
   ]
+
+  const handleSavePayment = () => {
+    if (!form.member.trim()) {
+      toast.error('Member name required')
+      return
+    }
+
+    const due = Math.max(Number(form.rent || 0) - Number(form.paid || 0), 0)
+    setRentRows((current) => [
+      { name: form.member.trim(), room: 'New', amount: `৳${due.toLocaleString()}`, status: due === 0 ? 'Paid' : 'Partial' },
+      ...current,
+    ])
+    setForm({ member: '', rent: '4500', paid: '4500' })
+    toast.success('Payment saved')
+  }
 
   return (
     <ModulePage
@@ -45,10 +65,10 @@ export default function RentManagementView() {
             <Badge tone="blue"><CalendarClock className="h-3.5 w-3.5" /> June 2026</Badge>
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-            <Input label="Member" placeholder="Search member" />
-            <Input label="Rent amount" type="number" defaultValue="4500" />
-            <Input label="Paid amount" type="number" defaultValue="4500" />
-            <Button className="self-end"><WalletCards className="h-4 w-4" />Save payment</Button>
+            <Input label="Member" placeholder="Search member" value={form.member} onChange={(event) => setForm({ ...form, member: event.target.value })} />
+            <Input label="Rent amount" type="number" value={form.rent} onChange={(event) => setForm({ ...form, rent: event.target.value })} />
+            <Input label="Paid amount" type="number" value={form.paid} onChange={(event) => setForm({ ...form, paid: event.target.value })} />
+            <Button className="self-end" onClick={handleSavePayment}><WalletCards className="h-4 w-4" />Save payment</Button>
           </div>
         </div>
 
@@ -69,7 +89,7 @@ export default function RentManagementView() {
       </div>
 
       <div className="grid gap-4 xl:grid-cols-[1.2fr_0.8fr]">
-        <ResponsiveTable columns={columns} rows={rows} emptyTitle="No rent entries" />
+        <ResponsiveTable columns={columns} rows={rentRows} emptyTitle="No rent entries" />
 
         <div className="space-y-4">
           <div className="surface rounded-[1.75rem] p-5 shadow-soft-lg">
@@ -90,7 +110,7 @@ export default function RentManagementView() {
                 </div>
               ))}
             </div>
-            <Button variant="secondary" className="mt-4 w-full"><ReceiptText className="h-4 w-4" />Add utility bill</Button>
+            <Button variant="secondary" className="mt-4 w-full" onClick={() => toast.success('Utility bill form ready')}><ReceiptText className="h-4 w-4" />Add utility bill</Button>
           </div>
 
           <div className="surface rounded-[1.75rem] p-5 shadow-soft-lg">

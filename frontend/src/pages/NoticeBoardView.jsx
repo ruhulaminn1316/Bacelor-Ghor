@@ -1,12 +1,34 @@
-import React from 'react'
+import React, { useMemo, useState } from 'react'
+import toast from 'react-hot-toast'
 import { Pin, Megaphone, BellRing, Send, Paperclip } from 'lucide-react'
 import ModulePage from './_shared/ModulePage'
 import { notices } from '../services/mockData'
 import Badge from '../components/common/Badge'
 import Button from '../components/common/Button'
 import Input from '../components/common/Input'
+import useLocalStorageState from '../hooks/useLocalStorageState'
 
 export default function NoticeBoardView() {
+  const [rows, setRows] = useLocalStorageState('bh-notices', notices)
+  const [filter, setFilter] = useState('All')
+  const [form, setForm] = useState({ title: '', details: '' })
+
+  const filteredRows = useMemo(() => {
+    if (filter === 'All') return rows
+    if (filter === 'Important') return rows.filter((item) => item.tone === 'amber' || item.tone === 'rose')
+    return rows.filter((item) => item.title.toLowerCase().includes('meeting') || item.meta.toLowerCase().includes('friday'))
+  }, [filter, rows])
+
+  const handlePublish = () => {
+    if (!form.title.trim()) {
+      toast.error('Notice title required')
+      return
+    }
+    setRows((current) => [{ title: form.title.trim(), meta: 'Posted just now', tone: 'blue' }, ...current])
+    setForm({ title: '', details: '' })
+    toast.success('Notice published')
+  }
+
   return (
     <ModulePage
       eyebrow="Notices"
@@ -21,13 +43,13 @@ export default function NoticeBoardView() {
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-slate-950 dark:text-white">Notice feed</h3>
               <div className="flex rounded-xl bg-slate-100 p-1 text-xs font-semibold dark:bg-slate-800">
-                <button className="rounded-lg bg-white px-3 py-1 text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white">All</button>
-                <button className="rounded-lg px-3 py-1 text-slate-500 dark:text-slate-300">Important</button>
-                <button className="rounded-lg px-3 py-1 text-slate-500 dark:text-slate-300">Events</button>
+                {['All', 'Important', 'Events'].map((item) => (
+                  <button key={item} onClick={() => setFilter(item)} className={`rounded-lg px-3 py-1 ${filter === item ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white' : 'text-slate-500 dark:text-slate-300'}`}>{item}</button>
+                ))}
               </div>
             </div>
             <div className="mt-4 space-y-3">
-              {notices.map((item) => (
+              {filteredRows.map((item) => (
                 <div key={item.title} className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-900/70">
                   <Badge tone={item.tone}>{item.meta}</Badge>
                   <div className="mt-3 text-base font-semibold text-slate-950 dark:text-white">{item.title}</div>
@@ -44,14 +66,14 @@ export default function NoticeBoardView() {
               Create notice
             </div>
             <div className="mt-3 space-y-3">
-              <Input label="Title" placeholder="Monthly meeting" />
+              <Input label="Title" placeholder="Monthly meeting" value={form.title} onChange={(event) => setForm({ ...form, title: event.target.value })} />
               <label className="flex flex-col gap-2 text-sm font-medium text-slate-700 dark:text-slate-200">
                 Notice details
-                <textarea className="min-h-[132px] rounded-2xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100" placeholder="Write the announcement..." />
+                <textarea value={form.details} onChange={(event) => setForm({ ...form, details: event.target.value })} className="min-h-[132px] rounded-2xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100" placeholder="Write the announcement..." />
               </label>
               <div className="grid gap-2 sm:grid-cols-2">
-                <Button variant="secondary"><Paperclip className="h-4 w-4" />Attach</Button>
-                <Button><Send className="h-4 w-4" />Publish</Button>
+                <Button variant="secondary" onClick={() => toast.success('Attachment picker ready')}><Paperclip className="h-4 w-4" />Attach</Button>
+                <Button onClick={handlePublish}><Send className="h-4 w-4" />Publish</Button>
               </div>
             </div>
           </div>

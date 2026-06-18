@@ -1,20 +1,62 @@
-import React from 'react'
-import { UserPlus, UserMinus, ShieldCheck, Home, Search, Phone, Mail } from 'lucide-react'
+import React, { useMemo, useState } from 'react'
+import toast from 'react-hot-toast'
+import { UserPlus, UserMinus, ShieldCheck, Home, Search, Phone, Mail, Trash2 } from 'lucide-react'
 import ModulePage from './_shared/ModulePage'
 import { members } from '../services/mockData'
 import Badge from '../components/common/Badge'
 import ResponsiveTable from '../components/tables/ResponsiveTable'
 import Button from '../components/common/Button'
 import Input from '../components/common/Input'
+import useLocalStorageState from '../hooks/useLocalStorageState'
 
 export default function MembersManagementView() {
+  const [rows, setRows] = useLocalStorageState('bh-members', members)
+  const [search, setSearch] = useState('')
+  const [form, setForm] = useState({ name: '', phone: '', room: '', role: 'Member' })
+
   const columns = [
     { key: 'name', label: 'Member' },
     { key: 'room', label: 'Room' },
     { key: 'role', label: 'Role' },
     { key: 'status', label: 'Status', render: (row) => <Badge tone={row.status === 'Active' ? 'emerald' : 'amber'}>{row.status}</Badge> },
     { key: 'due', label: 'Due' },
+    {
+      key: 'actions',
+      label: 'Actions',
+      render: (row) => (
+        <div className="flex gap-2">
+          <button
+            onClick={() => {
+              setRows((current) => current.map((item) => (item === row ? { ...item, status: item.status === 'Active' ? 'Away' : 'Active' } : item)))
+              toast.success('Member status updated')
+            }}
+            className="rounded-xl bg-blue-500/10 px-2.5 py-1 text-xs font-semibold text-blue-600 dark:text-blue-300"
+          >
+            Toggle
+          </button>
+          <button onClick={() => { setRows((current) => current.filter((item) => item !== row)); toast.success('Member removed') }} className="rounded-xl bg-rose-500/10 px-2.5 py-1 text-xs font-semibold text-rose-600 dark:text-rose-300"><Trash2 className="h-3.5 w-3.5" /></button>
+        </div>
+      ),
+    },
   ]
+
+  const filteredRows = useMemo(
+    () => rows.filter((row) => `${row.name} ${row.room} ${row.role} ${row.status}`.toLowerCase().includes(search.toLowerCase())),
+    [rows, search],
+  )
+
+  const handleInvite = () => {
+    if (!form.name.trim() || !form.room.trim()) {
+      toast.error('Name and room required')
+      return
+    }
+    setRows((current) => [
+      { name: form.name.trim(), room: form.room.trim(), role: form.role, status: 'Active', due: '৳0' },
+      ...current,
+    ])
+    setForm({ name: '', phone: '', room: '', role: 'Member' })
+    toast.success('Member invited')
+  }
 
   return (
     <ModulePage
@@ -42,18 +84,18 @@ export default function MembersManagementView() {
           <Badge tone="emerald">Invitation-ready</Badge>
         </div>
         <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
-          <Input label="Full name" placeholder="Member name" />
-          <Input label="Phone" placeholder="+880..." />
-          <Input label="Room / Seat" placeholder="A-102 / S3" />
+          <Input label="Full name" placeholder="Member name" value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} />
+          <Input label="Phone" placeholder="+880..." value={form.phone} onChange={(event) => setForm({ ...form, phone: event.target.value })} />
+          <Input label="Room / Seat" placeholder="A-102 / S3" value={form.room} onChange={(event) => setForm({ ...form, room: event.target.value })} />
           <label className="flex flex-col gap-2 text-sm font-medium text-slate-700 dark:text-slate-200">
             Role
-            <select className="h-11 rounded-2xl border border-slate-200 bg-white/90 px-4 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100">
+            <select value={form.role} onChange={(event) => setForm({ ...form, role: event.target.value })} className="h-11 rounded-2xl border border-slate-200 bg-white/90 px-4 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100">
               <option>Member</option>
               <option>Manager</option>
               <option>Treasurer</option>
             </select>
           </label>
-          <Button className="self-end"><UserPlus className="h-4 w-4" />Invite</Button>
+          <Button className="self-end" onClick={handleInvite}><UserPlus className="h-4 w-4" />Invite</Button>
         </div>
       </div>
 
@@ -62,10 +104,10 @@ export default function MembersManagementView() {
           <div className="surface rounded-[1.75rem] p-4 shadow-soft-lg">
             <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 dark:border-slate-700 dark:bg-slate-900/70">
               <Search className="h-4 w-4 text-slate-400" />
-              <input className="h-11 min-w-0 flex-1 bg-transparent text-sm outline-none dark:text-white" placeholder="Search member list" />
+              <input value={search} onChange={(event) => setSearch(event.target.value)} className="h-11 min-w-0 flex-1 bg-transparent text-sm outline-none dark:text-white" placeholder="Search member list" />
             </div>
           </div>
-          <ResponsiveTable columns={columns} rows={members} emptyTitle="No members yet" />
+          <ResponsiveTable columns={columns} rows={filteredRows} emptyTitle="No members yet" />
         </div>
 
         <div className="space-y-4">
@@ -82,7 +124,7 @@ export default function MembersManagementView() {
               <div className="flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-3 dark:bg-slate-900/70"><Phone className="h-4 w-4 text-emerald-500" /> +880 1700 000000</div>
               <div className="rounded-2xl bg-slate-50 px-4 py-3 dark:bg-slate-900/70">Role and permission map</div>
             </div>
-            <Button variant="secondary" className="mt-4 w-full">Open full profile</Button>
+            <Button variant="secondary" className="mt-4 w-full" onClick={() => toast.success('Profile panel opened')}>Open full profile</Button>
           </div>
 
           <div className="surface rounded-[1.75rem] p-5 shadow-soft-lg">
